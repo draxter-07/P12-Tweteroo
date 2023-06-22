@@ -10,16 +10,17 @@ var tweets = {};
 
 server.post("/tweets", (req, res) => {
     // Verifica se o usuário da request está cadastrado e pega o avatar
+    const r = req.params
     for (let a = 0; a < users.length; a++){
-        if (users[a] == req.username){
+        if (users[a].username == r.username){
             // Adiciona o tweet ao objeto
-            const obj = { username: req.username, avatar: users[a].avatar, tweet: req.tweet}
-            tweets.push(obj);
+            const obj = { username: r.username, avatar: users[a].avatar, tweet: r.tweet}
+            Object.assign(tweets, obj);
             res.status(200);
             res.send('OK');
             break;
         }
-        else if (a == users.length - 1 && users[a] != req.username){
+        else if (a == users.length - 1 && users[a].username != r.username){
             res.status(202);
             res.send('UNAUTHORIZED');
         }
@@ -28,7 +29,7 @@ server.post("/tweets", (req, res) => {
 
 server.post("/sign-up", (req, res) => {
     // Salva em users
-    users.push(req);
+    Object.assign(users, req);
     res.status(200);
     res.send('OK');
 })
@@ -44,7 +45,7 @@ server.get('/tweets', (req, res) => {
         let obj = {};
         const tot = tweets.length;
         for(let a = 0; a < 10; a++){
-            obj.push(tweets[tot - a]);
+            Object.assign(obj, tweets[tot - a]);
         }
         res.status(200);
         res.send(obj);
