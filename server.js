@@ -15,10 +15,12 @@ server.post("/tweets", (req, res) => {
             // Adiciona o tweet ao objeto
             const obj = { username: req.username, avatar: users[a].avatar, tweet: req.tweet}
             tweets.push(obj);
+            res.status(200);
             res.send('OK');
             break;
         }
         else if (a == users.length - 1 && users[a] != req.username){
+            res.status(202);
             res.send('UNAUTHORIZED');
         }
     }
@@ -27,12 +29,14 @@ server.post("/tweets", (req, res) => {
 server.post("/sign-up", (req, res) => {
     // Salva em users
     users.push(req);
+    res.status(200);
     res.send('OK');
 })
 
 server.get('/tweets', (req, res) => {
     // Se existem menos de 10 tweets, retorna todos
     if (tweets.length <= 10){
+        res.status(200);
         res.send(tweets);
     }
     // Se existem mais, aplica um for pros dez últimos
@@ -42,6 +46,7 @@ server.get('/tweets', (req, res) => {
         for(let a = 0; a < 10; a++){
             obj.push(tweets[tot - a]);
         }
+        res.status(200);
         res.send(obj);
     }
 })
