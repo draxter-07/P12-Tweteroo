@@ -6,7 +6,7 @@ server.use(cors());
 server.listen(5000, () => console.log('Running on port 5000'));
 
 var users = {};
-var tweets = {};
+var tweets = [];
 
 server.post("/tweets", (req, res) => {
     // Verifica se o usuário da request está cadastrado e pega o avatar
@@ -42,13 +42,14 @@ server.get('/tweets', (req, res) => {
     }
     // Se existem mais, aplica um for pros dez últimos
     else{
-        let obj = {};
+        let obj = [];
         const tot = tweets.length;
         for(let a = 0; a < 10; a++){
-            Object.assign(obj, tweets[tot - a]);
+            obj.push(tweets[tot - a]);
         }
         res.status(200);
         res.send(obj);
     }
 })
+
 
