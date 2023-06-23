@@ -36,7 +36,7 @@ server.post("/tweets", (req, res) => {
 
 server.post("/sign-up", (req, res) => {
     // Salva em users
-    users.push(req);
+    users.push(req.body);
     res.status(200);
     res.send('OK');
 })
@@ -50,7 +50,7 @@ server.get('/tweets', (req, res) => {
     // Se existem mais, aplica um for pros dez últimos
     else{
         let obj = [];
-        const tot = tweets.length;
+        const tot = tweets.length - 1;
         for(let a = 0; a < 10; a++){
             obj.push(tweets[tot - a]);
         }
